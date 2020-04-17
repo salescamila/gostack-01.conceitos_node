@@ -3,10 +3,25 @@ const express = require('express');
 const server = express();
 
 server.use(express.json());
+/**
+ * Métodos HTTP:
+ *
+ * GET: Buscar informações do back-end
+ * POST: Criar uma informação no back-end
+ * PUT/PATCH: Alterar uma informação no back-end
+ * DELETE: Deletar uma informação no back-end
+ */
 
-// Query params = ?teste=1
-// Route params = /users/1
-// Request body = { "name": "Camila", "salescamila1@gmail.com" }
+ /**
+  * Tipos de parâmetros:
+  *
+  * Query Params: Filtros e paginação
+  *   exemplo = ?teste=1
+  * Route Params: Identificar recursos (Atualizar/Deletar)
+  *   exemplo = /users/1
+  * Request Body: Conteúdo na hora de criar ou editar um recurso
+  *   exemplo = { "name": "Camila", "salescamila1@gmail.com" }
+  */
 
 // 'yarn index.js' no console para iniciar o servidor
 // 'yarn add nodemon -D' para monitorar alterações de arquivos e reiniciar o servidor automaticamente
