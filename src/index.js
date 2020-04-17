@@ -1,4 +1,5 @@
 const express = require('express');
+const { uuid } = require('uuidv4');
 
 const server = express();
 
@@ -29,6 +30,7 @@ server.use(express.json());
 // CRUD - Create, Read, Update, Delete
 
 const users = ['Camila', 'Silva', 'Sales'];
+const projects = [];
 
 server.use((req, res, next) => {
   console.time('Request');
@@ -58,6 +60,60 @@ function checkUserInArray(req, res, next) {
 
   return next();
 }
+
+app.get('/projects', () => {
+  const { title } = request.query;
+  const results = title
+    ? projects.filter(project => project.title.includes(title))
+    : projects;
+
+  return Response.json(results);
+});
+
+app.post('/projects', (request, response) => {
+  const { title, owner } = request.body;
+
+  const project = { id: uuid(), title, owner };
+
+  projects.push(project);
+
+  return response.json(project);
+});
+
+app.put('/Projects/:id', (request, response) => {
+  const { id } = request.params;
+  const { title, owner } = request.body;
+
+  const projectIndex = projects.findIndex(projects => project.id === id );
+
+  if (projectIndex < 0) {
+    return response.status(400).json({ error: 'Project not found.' });
+  }
+
+  const project = {
+    id,
+    title,
+    owner,
+  };
+
+  projects[projectIndex] = project;
+
+  return response.json(project);
+});
+
+app.delete('/projects/:id', (request, response) => {
+  const { id } = request.params;
+
+  const projectIndex = projects.findIndex(projects => project.id === id );
+
+  if (projectIndex < 0) {
+    return response.status(400).json({ error: 'Project not found.' });
+  }
+
+  projects.splice(projectIndex, 1);
+
+  return response.status(204).send();
+});
 
 // Consumindo Query params
 //localhost:3000/teste?nome=Camila
