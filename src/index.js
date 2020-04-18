@@ -1,9 +1,9 @@
 const express = require('express');
 const { uuid } = require('uuidv4');
 
-const server = express();
+const app = express();
 
-server.use(express.json());
+app.use(express.json());
 /**
  * Métodos HTTP:
  *
@@ -24,6 +24,13 @@ server.use(express.json());
   *   exemplo = { "name": "Camila", "salescamila1@gmail.com" }
   */
 
+  /**
+   * Middleware:
+   *
+   * Interceptador de requisições que pode interromper totalmente a requisição
+   * ou alterar dados da requisição
+   */
+
 // 'yarn index.js' no console para iniciar o servidor
 // 'yarn add nodemon -D' para monitorar alterações de arquivos e reiniciar o servidor automaticamente
 
@@ -32,7 +39,8 @@ server.use(express.json());
 const users = ['Camila', 'Silva', 'Sales'];
 const projects = [];
 
-server.use((req, res, next) => {
+// ------------------------------- //
+app.use((req, res, next) => {
   console.time('Request');
   console.log(`Método: ${req.method}; URL: ${req.url}`);
 
@@ -60,6 +68,32 @@ function checkUserInArray(req, res, next) {
 
   return next();
 }
+// ------------------------------- //
+
+function logRequest(request, response, next) {
+	const { method, url } = request;
+
+	const logLabel = `[${method.toUpperCase()}] ${url}`;
+
+  console.time(logLabel);
+
+  next(); // Próximo middleware
+
+  console.timeEnd(logLabel);
+};
+
+function validateProjectId(request, response, next) {
+  const { id } = request.params;
+
+  if (!isUuid(id)) {
+    return response.status(400).json({ error: 'Invalid project ID.' });
+  }
+
+  return next();
+}
+
+app.use(logRequest);
+app.use('/projects/:id', validateProjectId);
 
 app.get('/projects', () => {
   const { title } = request.query;
@@ -115,25 +149,27 @@ app.delete('/projects/:id', (request, response) => {
   return response.status(204).send();
 });
 
+
+// ------------------------------- //
 // Consumindo Query params
 //localhost:3000/teste?nome=Camila
-server.get('/teste', (req, res) => {
+app.get('/teste', (req, res) => {
   const nome = req.query.nome;
   return res.json({ message: `Hello ${nome}` });
 })
 
 // Consumindo Route params
 //localhost:3000/users/1234
-server.get('/users/:index', checkUserInArray, (req, res) => {
+app.get('/users/:index', checkUserInArray, (req, res) => {
   //const { index } = req.params;
   return res.json({ message: `Buscando o usuário ${req.user}` });
 })
 
-server.get('/users', (req, res) => {
+app.get('/users', (req, res) => {
   return res.json(users);
 });
 
-server.post('/users', checkUserExists, (req, res) => {
+app.post('/users', checkUserExists, (req, res) => {
   const { name } = req.body;
 
   users.push(name);
@@ -141,7 +177,7 @@ server.post('/users', checkUserExists, (req, res) => {
   return res.json(users);
 });
 
-server.put('/users/:index', checkUserExists, checkUserInArray, (req, res) => {
+app.put('/users/:index', checkUserExists, checkUserInArray, (req, res) => {
   const { index } = req.params;
   const { name } = req.body;
 
@@ -150,7 +186,7 @@ server.put('/users/:index', checkUserExists, checkUserInArray, (req, res) => {
   return res.json(users);
 })
 
-server.delete('/users/:index', checkUserInArray, (req, res) => {
+app.delete('/users/:index', checkUserInArray, (req, res) => {
   const { index } = req.params;
 
   users.splice(index, 1);
@@ -158,7 +194,8 @@ server.delete('/users/:index', checkUserInArray, (req, res) => {
   //Boa prática: retornar apenas um status de ok após deletar
   return res.send();
 });
+// ------------------------------- //
 
-server.listen(3000, () => {
+app.listen(3000, () => {
   console.log('🚀 Back-end started!');
 });
