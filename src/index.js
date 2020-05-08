@@ -1,5 +1,5 @@
 const express = require('express');
-const { uuid } = require('uuidv4');
+const { uuid, isUuid } = require('uuidv4');
 
 const app = express();
 
@@ -70,6 +70,7 @@ function checkUserInArray(req, res, next) {
 }
 // ------------------------------- //
 
+
 function logRequest(request, response, next) {
 	const { method, url } = request;
 
@@ -91,17 +92,18 @@ function validateProjectId(request, response, next) {
 
   return next();
 }
-
+// ------------------------------- //
+// PROJECTS API
 app.use(logRequest);
 app.use('/projects/:id', validateProjectId);
 
-app.get('/projects', () => {
+app.get('/projects', (request, response) => {
   const { title } = request.query;
   const results = title
     ? projects.filter(project => project.title.includes(title))
     : projects;
 
-  return Response.json(results);
+  return response.json(results);
 });
 
 app.post('/projects', (request, response) => {
@@ -114,11 +116,11 @@ app.post('/projects', (request, response) => {
   return response.json(project);
 });
 
-app.put('/Projects/:id', (request, response) => {
+app.put('/projects/:id', (request, response) => {
   const { id } = request.params;
   const { title, owner } = request.body;
 
-  const projectIndex = projects.findIndex(projects => project.id === id );
+  const projectIndex = projects.findIndex(project => project.id === id );
 
   if (projectIndex < 0) {
     return response.status(400).json({ error: 'Project not found.' });
@@ -138,7 +140,7 @@ app.put('/Projects/:id', (request, response) => {
 app.delete('/projects/:id', (request, response) => {
   const { id } = request.params;
 
-  const projectIndex = projects.findIndex(projects => project.id === id );
+  const projectIndex = projects.findIndex(project => project.id === id );
 
   if (projectIndex < 0) {
     return response.status(400).json({ error: 'Project not found.' });
@@ -148,7 +150,7 @@ app.delete('/projects/:id', (request, response) => {
 
   return response.status(204).send();
 });
-
+// ------------------------------- //
 
 // ------------------------------- //
 // Consumindo Query params
