@@ -3,10 +3,10 @@
 Nesse módulo iremos conhecer os primeiros conceitos do Node.js e aplicá-los na construção da nossa primeira aplicação back-end
 
 ## Executando...
-- A aplicação
+- A Aplicação
     * <b>`yarn`
     * `yarn dev` </b>
-- Os testes
+- Os Testes
     * <b>`yarn`
     * `yarn test` </b>
 
