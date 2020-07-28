@@ -2,7 +2,7 @@
 
 Nesse módulo iremos conhecer os primeiros conceitos do Node.js e aplicá-los na construção da nossa primeira aplicação back-end
 
-## Running The Application
+## Executando a aplicação
 
 * Instalar e iniciar o servidor da API
     - `yarn`
