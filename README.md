@@ -5,8 +5,8 @@ Nesse módulo iremos conhecer os primeiros conceitos do Node.js e aplicá-los na
 ## Executando a aplicação
 
 * Instalar e iniciar o servidor da API
-    - `yarn`
-    - `yarn dev`
+    - <b> `yarn`
+    - `yarn dev` </b>
 
 
 ---
