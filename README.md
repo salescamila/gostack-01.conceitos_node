@@ -6,11 +6,8 @@ Nesse módulo iremos conhecer os primeiros conceitos do Node.js e aplicá-los na
 - A Aplicação
     * <b>`yarn`
     * `yarn dev` </b>
-- Os Testes
-    * <b>`yarn`
-    * `yarn test` </b>
 
-
+<br/>
 
 ---
-<b>[Índice de Repositórios](https://github.com/salescamila/gostack)</b>
+<b>[Voltar ao Índice de Repositórios](https://github.com/salescamila/gostack)</b>
