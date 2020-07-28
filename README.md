@@ -2,11 +2,14 @@
 
 Nesse módulo iremos conhecer os primeiros conceitos do Node.js e aplicá-los na construção da nossa primeira aplicação back-end
 
-## Executando a aplicação
+## Executando...
+- A aplicação
+    * <b>`yarn`
+    * `yarn dev` </b>
+- Os testes
+    * <b>`yarn`
+    * `yarn test` </b>
 
-* Instalar e iniciar o servidor da API
-    - <b> `yarn`
-    - `yarn dev` </b>
 
 
 ---
